@@ -1,21 +1,29 @@
 const express = require('express');
+const cors = require('cors');
 const nodemailer = require('nodemailer');
 const validator = require('validator');
 
 const app = express();
 const port = 3000;
 
-// Middleware to parse JSON bodies
 app.use(express.json());
+app.use(cors({
+  origin: 'https://bloomtechnosys.onrender.com',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true  // enable CORS with credentials
+}));
 
+// Nodemailer setup
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: 'avi.bloomtechnosys@gmail.com', // replace with your email
-    pass: 'lwmmqvcidvuvhmmq'   // replace with your email password
+    user: 'avi.bloomtechnosys@gmail.com',
+    pass: 'lwmmqvcidvuvhmmq'
   }
 });
 
+// POST route for form submission
 app.post('/submit', async (req, res) => {
   const { name, email, message } = req.body;
 
